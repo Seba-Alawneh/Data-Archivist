@@ -13,7 +13,7 @@ def Modification() -> str:
     file.close()
     if content:
         content = content.replace('\n', '#\n')
-        if content[-1] != "\n" and content[-1] != "#":
+        if content[-1] != "\n":
             content += "#"
     return content
 
@@ -23,11 +23,14 @@ def save_new_content(new_content: str) -> None:
     if name_new_file == "":
         print("Not saving data.")
     else:
-        print(f"Saving data to '{name_new_file}'")
-        new_file = open(name_new_file, "w")
-        new_file.write(new_content)
-        new_file.close()
-        print(f"Data saved in file '{name_new_file}'.")
+        try:
+            print(f"Saving data to '{name_new_file}'")
+            new_file = open(name_new_file, "w")
+            new_file.write(new_content)
+            new_file.close()
+            print(f"Data saved in file '{name_new_file}'.")
+        except (FileNotFoundError, PermissionError) as e:
+            print(f"Error opening file '{name_new_file}': {e}")
 
 
 def main() -> None:
